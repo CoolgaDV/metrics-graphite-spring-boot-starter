@@ -8,15 +8,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  *         12.12.2017 11:04
  */
 @ConfigurationProperties(prefix = "metrics.graphite")
-public class GraphiteMetricsConfiguration {
+public class GraphiteMetricsProperties {
 
-    @Value("${host}")
+    @Value("${host:localhost}")
     private String graphiteHost;
 
-    @Value("${port}")
+    @Value("${port:2003}")
     private short graphitePort;
 
-    @Value("${prefix}")
+    @Value("${prefix:app}")
     private String metricsPrefix;
 
     public String getMetricsPrefix() {

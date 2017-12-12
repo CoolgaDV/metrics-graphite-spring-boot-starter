@@ -11,6 +11,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
@@ -19,11 +21,21 @@ import java.util.concurrent.TimeUnit;
  *         11.12.2017 19:25
  */
 @Configuration
-@EnableConfigurationProperties(GraphiteMetricsConfiguration.class)
+@EnableConfigurationProperties(GraphiteMetricsProperties.class)
 public class GraphiteMetricsAutoConfiguration {
 
     @Autowired
-    private GraphiteMetricsConfiguration properties;
+    private GraphiteMetricsProperties properties;
+
+    @PostConstruct
+    public void init() {
+        getGraphiteReporter().start(5, TimeUnit.SECONDS);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        getGraphiteReporter().stop();
+    }
 
     @Bean
     public MetricRegistry getMetricsRegistry() {
