@@ -1,1 +1,1 @@
-# metrics-spring-boot-starter
+# metrics-graphite-spring-boot-starter
